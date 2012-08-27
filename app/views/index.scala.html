@@ -1,0 +1,19 @@
+@(form: play.api.data.Form[String])
+
+@main("Pinger") {
+    @helper.form(action = routes.Application.addUrl) {
+        @helper.inputText(form("url"))
+        <input type="submit"/>
+    }
+    <div id="stream"></div>
+
+<script type="text/javascript">
+    window.message = function(data) {
+        $('#stream').prepend("<p>"+data+"</p>");
+        $('#stream p:nth-child(20)').remove();
+    };
+</script>
+
+<iframe src="@routes.Application.pingStream" style="display:none"/>
+
+}
