@@ -6,6 +6,7 @@
 GET     /                           controllers.Application.index
 
 POST    /url                        controllers.Application.addUrl
+POST    /urls                       controllers.Application.uploadUrls
 GET     /pingStream                 controllers.Application.pingStream
 
 # Map static resources from the /public folder to the /assets URL path

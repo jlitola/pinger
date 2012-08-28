@@ -11,6 +11,7 @@ import akka.util.duration._
 import play.api.libs.iteratee._
 import akka.pattern.ask
 import play.api.libs.concurrent._
+import io.Source
 
 object Application extends Controller {
 
@@ -33,6 +34,15 @@ object Application extends Controller {
           Redirect(routes.Application.index())
       }
       )
+  }
+  def uploadUrls() = Action(parse.multipartFormData) { request =>
+    request.body.files.map { file =>
+      Source.fromFile(file.ref.file).getLines().foreach { line =>
+        if(line.startsWith("http://"))
+          PingActor.coordinator ! AddPing(line)
+      }
+    }
+    Ok("Urls added")
   }
 
   def pingStream = Action {
